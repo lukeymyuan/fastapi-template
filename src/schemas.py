@@ -1,8 +1,8 @@
 from datetime import datetime
+from typing import Any
 from zoneinfo import ZoneInfo
 
-from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, field_serializer
 
 
 def datetime_to_gmt_str(dt: datetime) -> str:
@@ -13,13 +13,15 @@ def datetime_to_gmt_str(dt: datetime) -> str:
 
 
 class CustomModel(BaseModel):
-    model_config = ConfigDict(
-        json_encoders={datetime: datetime_to_gmt_str},
-        populate_by_name=True,
-    )
+    model_config = ConfigDict(populate_by_name=True)
 
-    def serializable_dict(self, **kwargs):
-        """Return a dict which contains only serializable fields."""
-        default_dict = self.model_dump()
+    @field_serializer("*", when_used="json", check_fields=False)
+    def _serialize_datetimes(self, value: Any) -> Any:
+        if isinstance(value, datetime):
+            return datetime_to_gmt_str(value)
 
-        return jsonable_encoder(default_dict)
+        return value
+
+    def serializable_dict(self, **kwargs: Any) -> dict[str, Any]:
+        """Return a JSON-serializable dict (datetimes as strings, etc.)."""
+        return self.model_dump(mode="json", **kwargs)

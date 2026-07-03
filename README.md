@@ -9,7 +9,7 @@ A minimal template for kickstarting new FastAPI projects.
 - `GET /healthcheck` endpoint
 - Pydantic-settings config with `.env` and environment profiles (`LOCAL` / `TESTING` / `STAGING` / `PRODUCTION`)
 - API versioning via `root_path` in deployed environments
-- Logging configured at import time via `logging.ini` (no CLI flag required)
+- Logging configured via `logging.ini`, wired through the `run.py` dev entrypoint
 - Global HTTP exception hierarchy
 - Timezone-aware Pydantic base model
 - Ruff lint/format
@@ -34,7 +34,7 @@ uv sync
 ## Run
 
 ```bash
-uv run uvicorn src.main:app --reload
+uv run run.py
 ```
 
 The app will be available at <http://localhost:8000>.
@@ -42,36 +42,12 @@ The app will be available at <http://localhost:8000>.
 ## Lint and format
 
 ```bash
-uv run ruff check src tests
-uv run ruff format src tests
+uv run ruff check .
+uv run ruff format .
 ```
 
 ## Test
 
 ```bash
 uv run pytest
-```
-
-## Project layout
-
-```
-.
-├── .env.example
-├── .github/workflows/ci.yml
-├── README.md
-├── logging.ini
-├── pyproject.toml
-├── ruff.toml
-├── uv.lock
-├── src/
-│   ├── __init__.py
-│   ├── config.py
-│   ├── constants.py
-│   ├── exceptions.py
-│   ├── main.py
-│   ├── schemas.py
-│   └── utils.py
-└── tests/
-    ├── __init__.py
-    └── test_main.py
 ```

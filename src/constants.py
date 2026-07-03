@@ -8,7 +8,11 @@ class Environment(str, Enum):
     PRODUCTION = "PRODUCTION"
 
     @property
-    def is_testing(self):
+    def is_debug(self) -> bool:
+        return self in (self.LOCAL, self.TESTING, self.STAGING)
+
+    @property
+    def is_testing(self) -> bool:
         return self == self.TESTING
 
     @property

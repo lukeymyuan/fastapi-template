@@ -1,17 +1,10 @@
-import logging.config
 from contextlib import asynccontextmanager
-from pathlib import Path
 from typing import AsyncGenerator
 
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from src.config import app_configs, settings
-
-logging.config.fileConfig(
-    Path(__file__).resolve().parent.parent / "logging.ini",
-    disable_existing_loggers=False,
-)
 
 
 @asynccontextmanager
