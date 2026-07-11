@@ -21,6 +21,7 @@ FastAPI, Python 3.12, uv, Ruff, pytest
 - Type hints on all function signatures
 - Manage deps with uv only
 - Pydantic v2 models for all request/response shapes
+- Prefer the simplest solution; avoid needless abstraction. Comments explain *why*, not *what*.
 
 ## FastAPI conventions
 
